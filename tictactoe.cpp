@@ -185,29 +185,45 @@ void Tictactoe::Play(int whose_turn) {
   // Keep playing till the game is over or it is a draw
   while (!Is_Game_Over() && total_filled_cells != SIDE * SIDE) {
     int input_position;
+    bool broken_input = false;
+
     if (whose_turn == AI) { //hey my turn, i am an AI
       Notify_Movement(Best_Move(total_filled_cells), true); //Show the movement
       Next_Turn(whose_turn, total_filled_cells); //And move to next turn
     }
     // else if whose_turn = PLAYER
     else {
-      //List out valid movement and ask for player input
-      List_Valid_Position();
-      cout << endl << "Enter the position = ";
-      cin >> input_position;
+      // Make sure that the user can't break the input buffer
+      do {
+        broken_input = false;
+        //List out valid movement and ask for player input
+        List_Valid_Position();
+        cout << endl << "Enter the position:  ";
+        cin >> input_position;
 
-      if (cin.fail()) {
+        // If we enter the fail state from invalid input...
+        if (cin.fail()) {
+          // Clear any error flags raised
+          cin.clear();
+          broken_input = true;
+          cout << "Invalid input! Try again!\n\n";
+        }
+        // Flush the input buffer
         cin.ignore(1000, '\n');
-      }
-      
+      } while (broken_input);
+
       input_position--; //convert it to the real array index
-      if (Is_Valid_Movement(input_position)) { //what if it is a valid movement?
-        Notify_Movement(input_position, false); //Show the movement to screen
-        Next_Turn(whose_turn, total_filled_cells); //And move to next turn now
-      } else
-        Is_Filled_Or_Out_Of_Board(input_position); //Make sure to check end game!
+
+
+      if (!Is_Filled_Or_Out_Of_Board(input_position)) {
+        if (Is_Valid_Movement(input_position)) { //what if it is a valid movement?
+          Notify_Movement(input_position, false); //Show the movement to screen
+          Next_Turn(whose_turn, total_filled_cells); //And move to next turn now
+        }
+      }
     }
   }
+  
   // No one win but running out of spot ?--> A draw...
   Is_A_Draw_Or_Winnable(total_filled_cells, whose_turn);
 }
@@ -226,6 +242,7 @@ void Tictactoe::Is_A_Draw_Or_Winnable(const int total_filled_cells,
     Define_Winner(whose_turn);
   }
 }
+
 // List out all current valid position
 void Tictactoe::List_Valid_Position() const {
   cout << "Current VALID positions : ";
@@ -234,27 +251,35 @@ void Tictactoe::List_Valid_Position() const {
       if (board_(i, j) == ' ')
         cout << (i * SIDE + j) + 1 << "; ";
 }
-// Test if the selected position is filled or not
-void Tictactoe::Is_Filled_Or_Out_Of_Board(const int input_position) const {
-  if (board_(input_position) != ' ' && input_position < SIDE * SIDE &&
-      input_position >= 0)
-    cout << endl
-         << "It is filled, please choose one from valid positions" << endl;
 
-  if (input_position < 0 || input_position > SIDE * SIDE - 1)
-    cout << "Invalid position" << endl;
+// Test if the selected position is filled or not
+bool Tictactoe::Is_Filled_Or_Out_Of_Board(const int input_position) const {
+  if (input_position < 0 || input_position > SIDE * SIDE - 1) {
+    cout << "Invalid position. Out of bounds!\n\n";
+    return true;
+  }
+
+  if (board_(input_position) != ' ' && input_position < SIDE * SIDE && input_position >= 0) {
+    cout << "It is filled, please choose one from valid positions.\n\n";
+    return true;
+  }
+
+  return false;
 }
+
 // Move to next player
 void Tictactoe::Next_Turn(int &whose_turn, int &total_filled_cells) {
   Draw_Board();
   total_filled_cells++; // total filled cells
   whose_turn = (whose_turn == AI ? PLAYER : AI);
 }
+
 // Is game a DRAW or who actually won?
 bool Tictactoe::Is_Valid_Movement(const int input_position) {
   return board_(input_position) == ' ' && input_position < SIDE * SIDE &&
          input_position >= 0;
 }
+
 // Notify the movenent to the screen
 void Tictactoe::Notify_Movement(const int input_position, bool is_ai) {
   if (!is_ai) { //hey this is an player movement

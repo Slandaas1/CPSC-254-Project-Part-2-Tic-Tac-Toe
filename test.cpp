@@ -22,7 +22,7 @@ File Description: Define all player operation declared in test.h
 Test::Test() : test_case_number(0) { /* nothing else */ } // constructor
 
 // Helper function to get a proper character response from the user
-char Test::Fetch_Input(string prompt) {
+char Test::Fetch_Input(string prompt) const {
   bool valid_input = false;
   char user_choice = '\0';
 

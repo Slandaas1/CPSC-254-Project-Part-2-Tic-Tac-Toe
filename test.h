@@ -45,7 +45,7 @@ private:
 
 public:
   Test(); //constructor
-  char Fetch_Input(string prompt);
+  char Fetch_Input(string prompt) const;
   void Test_Unit(); //unit test at matrix level
   void Test_Integrate(); //integration test at game level
   void Test_System(); //system and acceptance test at application level

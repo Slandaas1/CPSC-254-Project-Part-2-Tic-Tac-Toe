@@ -65,7 +65,7 @@ class Tictactoe
     // If the selected position is a valid movement
     bool Is_Valid_Movement(const int input_position);
     // Test if the selected position is filled or out out board
-    void Is_Filled_Or_Out_Of_Board(const int input_position) const;
+    bool Is_Filled_Or_Out_Of_Board(const int input_position) const;
     // Move to next turn: redraw the board also
     void Next_Turn(int &whose_turn, int &total_filled_cells);
     // Notify the movenent to the screen
