@@ -135,11 +135,9 @@ void Test::Test_System() {
       game.Play(AI);
     else
       game.Play(PLAYER);
-    //Here is the place to check if our game object does check the invalid choices
 
 
     //End game, wanna end the application now?
-    
     // Ask if they want to start the game first until a valid reply is given...
     is_continue = Fetch_Input("Do you want to quit the game now? (y/n):  ");
 
