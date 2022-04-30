@@ -120,9 +120,9 @@ void Test::Test_System() {
   
   //Initialize the game object and list out the welcome sign to players
   Tictactoe game;
-  cout << "-------------------------------------------" << endl;
-  cout << "\t\t TIC-TAC-TOE-GAME" << endl;
-  cout << "-------------------------------------------" << endl;
+  cout << "\n\n\n\n-------------------------------------------\n";
+  cout << "\t\t TIC-TAC-TOE-GAME\n";
+  cout << "-------------------------------------------\n\n";
   //To prompt user if they want to continue playing with the game
   char is_continue = 'Y';
 

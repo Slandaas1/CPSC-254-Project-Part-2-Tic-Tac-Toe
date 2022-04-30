@@ -19,6 +19,8 @@ File Description: Define all game operators declared in tictactoe.h
 #define __TICTACTOE_CPP__
 
 #include "tictactoe.h"
+
+
 // Draw a line with SIDE cell in each row
 void Tictactoe::Draw_A_Line() const {
   cout << "\t\t";
@@ -26,6 +28,8 @@ void Tictactoe::Draw_A_Line() const {
     cout << "-";
   cout << endl;
 }
+
+
 // Draw a separator between 2 cell of a row
 void Tictactoe::Draw_Separator(const int j) const {
   if (j < SIDE - 1) // not the last cell of row yet
@@ -34,6 +38,8 @@ void Tictactoe::Draw_Separator(const int j) const {
   else if (j == SIDE - 1) // last cell of row now
     cout << endl;
 }
+
+
 // Display current board status
 void Tictactoe::Draw_Board() const {
   for (int i = 0; i < SIDE; i++) {
@@ -45,6 +51,8 @@ void Tictactoe::Draw_Board() const {
     Draw_A_Line();
   }
 }
+
+
 // Display the game's guide
 void Tictactoe::Show_Instruction() const {
   cout << endl << "Pick a cell(1-" << SIDE * SIDE << "): " << endl;
@@ -62,9 +70,13 @@ void Tictactoe::Show_Instruction() const {
     Draw_A_Line();
   }
 }
+
+
 // Initialize the board
 void Tictactoe::Initialize_Board_Value() {
   board_ = ' '; }
+
+
 // Who is the winner?
 void Tictactoe::Define_Winner(const int whose_turn) const {
   if (whose_turn == AI)
@@ -72,22 +84,32 @@ void Tictactoe::Define_Winner(const int whose_turn) const {
   else
     cout << "PLAYER won\n" << endl;
 }
+
+
 // Is a player has a row crossed
 bool Tictactoe::Is_Cross_Row() const {
   return board_.Exist_Equalized_Row();
 }
+
+
 // Is a player has a column crossed
 bool Tictactoe::Is_Cross_Column() const {
   return board_.Exist_Equalized_Column();
 }
+
+
 // Is a player has a diagonal crossed
 bool Tictactoe::Is_Cross_Diagonal() const {
   return board_.Exist_Equalized_Diagonal();
 }
+
+
 // Is the game over yet?
 bool Tictactoe::Is_Game_Over() const {
   return Is_Cross_Row() || Is_Cross_Column() || Is_Cross_Diagonal();
 }
+
+
 // Support re-assignor functions for comparing 2 numbers
 void Tictactoe::Re_Assign_If_Bigger(int &bigger, const int comparee) const {
   bigger = (comparee > bigger) ? comparee : bigger;
@@ -95,6 +117,8 @@ void Tictactoe::Re_Assign_If_Bigger(int &bigger, const int comparee) const {
 void Tictactoe::Re_Assign_If_Smaller(int &smaller, const int comparee) const {
   smaller = (comparee < smaller) ? comparee : smaller;
 }
+
+
 // For a specific movement, what is the score for that movement?
 int Tictactoe::Mini_Max(const int depth, const bool is_ai) {
   // Score of the current movement and the best_score for any movement
@@ -146,6 +170,8 @@ int Tictactoe::Mini_Max(const int depth, const bool is_ai) {
     }
   }
 }
+
+
 // What is the best movement, based on a specific movement index?
 int Tictactoe::Best_Move(const int total_filled_cells) {
   //First, let's assign the row and column indexes
@@ -174,6 +200,8 @@ int Tictactoe::Best_Move(const int total_filled_cells) {
   return row_index * SIDE + col_index;
   // then return the point to the cell position format for use later
 }
+
+
 // Driver to play the game
 void Tictactoe::Play(int whose_turn) {
   int total_filled_cells = 0; // total filed cell
@@ -227,6 +255,8 @@ void Tictactoe::Play(int whose_turn) {
   // No one win but running out of spot ?--> A draw...
   Is_A_Draw_Or_Winnable(total_filled_cells, whose_turn);
 }
+
+
 // Is game a DRAW or who actually won?
 void Tictactoe::Is_A_Draw_Or_Winnable(const int total_filled_cells,
     int &whose_turn) const {
@@ -243,14 +273,16 @@ void Tictactoe::Is_A_Draw_Or_Winnable(const int total_filled_cells,
   }
 }
 
+
 // List out all current valid position
 void Tictactoe::List_Valid_Position() const {
-  cout << "Current VALID positions : ";
+  cout << "\nCurrent VALID positions : ";
   for (int i = 0; i < SIDE; i++)
     for (int j = 0; j < SIDE; j++)
       if (board_(i, j) == ' ')
         cout << (i * SIDE + j) + 1 << "; ";
 }
+
 
 // Test if the selected position is filled or not
 bool Tictactoe::Is_Filled_Or_Out_Of_Board(const int input_position) const {
@@ -267,6 +299,7 @@ bool Tictactoe::Is_Filled_Or_Out_Of_Board(const int input_position) const {
   return false;
 }
 
+
 // Move to next player
 void Tictactoe::Next_Turn(int &whose_turn, int &total_filled_cells) {
   Draw_Board();
@@ -274,11 +307,13 @@ void Tictactoe::Next_Turn(int &whose_turn, int &total_filled_cells) {
   whose_turn = (whose_turn == AI ? PLAYER : AI);
 }
 
+
 // Is game a DRAW or who actually won?
 bool Tictactoe::Is_Valid_Movement(const int input_position) {
   return board_(input_position) == ' ' && input_position < SIDE * SIDE &&
          input_position >= 0;
 }
+
 
 // Notify the movenent to the screen
 void Tictactoe::Notify_Movement(const int input_position, bool is_ai) {
@@ -290,11 +325,17 @@ void Tictactoe::Notify_Movement(const int input_position, bool is_ai) {
     cout << endl << "AI filled spot number " << input_position + 1 << endl;
   }
 }
+
+
 // For testing purpose of getting an element value
 char Tictactoe::Get_Element(const int row, const int column) const {
   return board_(row, column);
 }
+
+
 char Tictactoe::Get_Element(const int index) const {
   return board_(index);
 }
+
+
 #endif
