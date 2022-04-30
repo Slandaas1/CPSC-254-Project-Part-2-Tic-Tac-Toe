@@ -20,6 +20,34 @@ File Description: Define all player operation declared in test.h
 
 #include "test.h"
 Test::Test() : test_case_number(0) { /* nothing else */ } // constructor
+
+// Helper function to get a proper character response from the user
+char Test::Fetch_Input(string prompt) {
+  bool valid_input = false;
+  char user_choice = '\0';
+
+  // Prompt the user until a valid Y/N response is given...
+  while (!valid_input) {
+    cout << prompt;
+    cin >> user_choice;
+    // Convert the choice to uppercase
+    user_choice = toupper(user_choice);
+    valid_input = true;
+
+    // Detect if invalid input was given
+    if (user_choice != 'Y' && user_choice != 'N') {
+      valid_input = false;
+      cout << "Invalid input! Try again!\n\n";
+    }
+
+    // Flush the input buffer...
+    cin.ignore(1000, '\n');
+  }
+
+  return user_choice;
+}
+
+
 //Test to see if the single units inside the matrix template class is runable and run precisely
 void Test::Test_Unit() {
   test_matrix_ = 2;
@@ -96,25 +124,26 @@ void Test::Test_System() {
   cout << "\t\t TIC-TAC-TOE-GAME" << endl;
   cout << "-------------------------------------------" << endl;
   //To prompt user if they want to continue playing with the game
-  char is_continue = 'y';
+  char is_continue = 'Y';
+
   //Let's giving player fun time by playing game unitl they are tired!!!
   do {
-    //Kindly check if player wanna play first or AI plays first
-    char player_choice;
-    cout << "Do you want to start the game first?(y/n):" << endl;
-    cin >> player_choice;
+    // Kindly check if player wanna play first or AI plays first
+    char player_choice = Fetch_Input("Do you want to start the game first? (y/n):  ");
     //...then kickstart corresponding actions
-    if (player_choice == 'n' || player_choice == 'N')
+    if (player_choice == 'N')
       game.Play(AI);
-    else if (player_choice == 'y' || player_choice == 'Y')
+    else
       game.Play(PLAYER);
     //Here is the place to check if our game object does check the invalid choices
-    else
-      cout << "It is an invalid choice" << endl;
+
+
     //End game, wanna end the application now?
-    cout << "Do you want to quit the game now? (y/n):" << endl;
-    cin >> is_continue;
-  } while (is_continue == 'n' || is_continue == 'N');
+    
+    // Ask if they want to start the game first until a valid reply is given...
+    is_continue = Fetch_Input("Do you want to quit the game now? (y/n):  ");
+
+  } while (is_continue == 'N');
   std::cout << "Finished all tests \n";
   std::cout << "-------------------------------------------------------------\n";
 }

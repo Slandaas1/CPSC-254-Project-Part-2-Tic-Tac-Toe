@@ -195,6 +195,11 @@ void Tictactoe::Play(int whose_turn) {
       List_Valid_Position();
       cout << endl << "Enter the position = ";
       cin >> input_position;
+
+      if (cin.fail()) {
+        cin.ignore(1000, '\n');
+      }
+      
       input_position--; //convert it to the real array index
       if (Is_Valid_Movement(input_position)) { //what if it is a valid movement?
         Notify_Movement(input_position, false); //Show the movement to screen

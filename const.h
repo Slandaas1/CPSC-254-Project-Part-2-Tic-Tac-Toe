@@ -19,6 +19,8 @@ File Description: Includes all constant of the project
 #ifndef __CONST_H__
 #define __CONST_H__
 #include <iostream>
+#include <string>
+#include <cctype>
 using namespace std;
 
 //Artificial Intelligece like CPU; the opponent in the game
