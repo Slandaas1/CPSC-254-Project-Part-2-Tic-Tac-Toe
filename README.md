@@ -6,7 +6,7 @@
 * test.h and .cpp: implement test plan that illustrated in part 2 (below)
 * main.cpp: call test cases defined and implemented in test class to test application in multiple testing levels.
 
-## 1.2 STRUCTURE:
+#### 1.2 STRUCTURE:
 ```
   +--------------------------------------+        +-------------------------------------------------------------+
 +>|class <type T> Matrix                 |<--+ =>>|class Tictactoe                                              |
